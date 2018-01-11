@@ -48,10 +48,11 @@ def dataStatistics(data, statistic):
     elif statistic == "Rows":
         result = np.size(data)/3
     elif statistic == "Mean Cold Growth rate":
-        result = data[:, 0].mean()
+        result = data[:, 0]
+        result = result[result<20].mean()
     elif statistic == "Mean Hot Growth rate":
-        result = data[:, 1].mean()
-
+        result = data[:, 0]
+        result = result[result>50].mean()
     return result
 
 
