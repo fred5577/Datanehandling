@@ -102,12 +102,23 @@ def dataFilterGrowthRate(data,input1,input2):
     return temp
 
 
+
+#  MENU: Read prints for clarification
+
 def askInitInput(data):
+    # --- ASK FOR INITIAL OPTION ----
     userInput = input("\n  Type the number corresponding to the action you want to perform. \n1. Load data \n2. Filter data \n3. Display statistic \n4. Generate plots \n5. Quit\n")
+    # --- OPTION 1: LOAD DATA ----
     if userInput == "1":
-        textFileName = input("Input text file's name.\n")
-        data = dataLoad(textFileName)
-        askInitInput(data)
+        while 1:
+            textFileName = input("Input text file's name.\n")
+            try:
+                data = dataLoad(textFileName)
+                askInitInput(data)
+            except ValueError:
+                print("Can't find file. Try again.")
+
+    # --- OPTION 2: FILTER DATA
     elif userInput == "2":
         print("\n  Choose a filter")
         while 1:
@@ -134,7 +145,7 @@ def askInitInput(data):
             else:
                 print("Wrong input. Try again.")
                         
-        askInitInput(data)
+    # --- OPTION 3: DISPLAY STATISTIC
     elif userInput == "3":
         print("\n  Choose statistic to show.")
         stat = input("1. Mean Temperature \n2. Mean Growth rate \n3. Std Temperature \n4. Std Growth rate \n5. Rows \n6. Mean Cold Growth rate \n7. Mean Hot Growth rate\n")
@@ -163,10 +174,11 @@ def askInitInput(data):
             else:
                 print("Wrong input. Try again.")
                 
-        askInitInput(data)
+    # --- OPTION 4: GENERATE PLOTS ---
     elif userInput == "4":
         dataPlot(data)
         askInitInput(data)
+    # --- OPTION 5: QUIT ---
     elif userInput == "5":
         quit()
     else:
