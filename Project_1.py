@@ -1,6 +1,5 @@
 import numpy as np
 from matplotlib import pyplot as plt
-from matplotlib.pyplot import figure, plot, subplot, title, xlabel, ylabel, show, clim
 
 
 def checkData(arr):
@@ -14,7 +13,7 @@ def checkData(arr):
         if not(10 < arr[i][0] < 60):
             print("Error temperature: " + str(i+1))
             fault = True
-        elif not(arr[i][1]> 0):
+        elif not(arr[i][1] > 0):
             print("Error growth rate: "+str(i+1))
             fault = True
         elif not(arr[i][2] == 1 or arr[i][2] == 2 or arr[i][2] == 3 or arr[i][2] == 4):
@@ -51,13 +50,13 @@ def dataStatistics(data, statistic):
     elif statistic == "Mean Cold Growth rate":
         result = data[:, 0].mean()
     elif statistic == "Mean Hot Growth rate":
-        result = data[:,1 ].mean()
+        result = data[:, 1].mean()
 
     return result
 
 
 def dataPlot(data):
-    plt.subplot(1,4,1)
+    plt.subplot(1, 4, 1)
     plt.hist(data[:, 2], edgecolor='black')
     plt.xlabel("Number of bacteria")
 
