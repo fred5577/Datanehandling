@@ -1,7 +1,7 @@
 import numpy as np
 from matplotlib import pyplot as plt
 
-#Removes all the incorrect data
+
 def checkData(arr):
     res = np.array([])
     rounds = int(np.size(arr)/3)
@@ -34,12 +34,14 @@ def checkData(arr):
 
 #Loads data in to a numpy array
 def dataLoad(filename):
+    # Insert your code here
     data1 = np.genfromtxt(filename, delimiter=' ')
     data1 = checkData(data1)
     return data1
 
 #Choose betweem getting different data statistics. The name explains what it returns
 def dataStatistics(data, statistic):
+    # Insert your code here
     if statistic == "Mean Temperature":
         result = data[:, 0].mean()
     elif statistic == "Mean Growth rate":
@@ -49,7 +51,7 @@ def dataStatistics(data, statistic):
     elif statistic == "Std Growth rate":
         result = data[:, 1].std(ddof=1)
     elif statistic == "Rows":
-        result = np.size(data)/3
+        result = np.size(data) / 3
     elif statistic == "Mean Cold Growth rate":
         result = data[:, 0].mean()
     elif statistic == "Mean Hot Growth rate":
@@ -57,6 +59,10 @@ def dataStatistics(data, statistic):
 
     return result
 
+
+# Purpose of function is to show two plots,
+#  one of the amount of each bacteria types, one of the growth and temperature of each bacteria
+# It takes as input a 3x3 numpy array of the bacteria data and has no output arguments
 def dataPlot(data):
     plt.figure(figsize=(15, 6))
     plt.subplots_adjust(wspace=0.5)
@@ -90,10 +96,10 @@ def dataPlot(data):
 def dataFilterBact(data,filterType):
     #It returns the data with only the specific bacteria
     if filterType == "1":
-        data = data[data[:,2] == 1]
+        data = data[data[:, 2] == 1]
         return data
     elif filterType == "2":
-        data = data[data[:,2] == 2]
+        data = data[data[:, 2] == 2]
         return data
     elif filterType == "3":
         data = data[data[:, 2] == 3]
@@ -102,6 +108,8 @@ def dataFilterBact(data,filterType):
         data = data[data[:, 2] == 4]
         return data
 
+
+def dataFilterGrowthRate(data, input1, input2):
 #Filters the growth rate according to input1 and input2
 def dataFilterGrowthRate(data,input1,input2):
     temp = data
@@ -117,9 +125,12 @@ def dataFilterGrowthRate(data,input1,input2):
 #  MENU: Read prints for clarification
 
 def askInitInput(data):
+
     # --- ASK FOR INITIAL OPTION ----
-    userInput = input("\n  Type the number corresponding to the action you want to perform. \n1. Load data \n2. Filter data \n3. Display statistic \n4. Generate plots \n5. Quit\n")
+    userInput = input("\n  Type the number corresponding to the action you want to perform. \n1. Load data \n2. "
+                      "Filter data \n3. Display statistic \n4. Generate plots \n5. Quit\n")
     # --- OPTION 1: LOAD DATA ----
+
     if userInput == "1":
         while 1:
             textFileName = input("Input text file's name.\n")
@@ -135,10 +146,11 @@ def askInitInput(data):
         print("\n  Choose a filter")
         while 1:
             menu = input("1. Filter based on bacteria \n2. Filter based on Growth rate\n")
-            if menu == "1":    
+            if menu == "1":
                 print("\n  Choose a bacteria.")
                 while 1:
-                    bactName = input("1. Salmonella enterica \n2. Bacillus cereus \n3. Listeria \n4. Brochothrix thermosphacta\n")
+                    bactName = input("1. Salmonella enterica \n2. Bacillus cereus \n3. Listeria \n4. Brochothrix "
+                                     "thermosphacta\n")
                     if bactName == "1" or bactName == "2" or bactName == "3" or bactName == "4":
                         data = dataFilterBact(data, bactName)
                         askInitInput(data)
@@ -153,14 +165,14 @@ def askInitInput(data):
                         askInitInput(data)
                     else:
                         print("Lower bound is a bigger number than the upper bound. Try again")
-                    
+
             else:
                 print("Wrong input. Try again.")
-                        
     # --- OPTION 3: DISPLAY STATISTIC
     elif userInput == "3":
         print("\n  Choose statistic to show.")
-        stat = input("1. Mean Temperature \n2. Mean Growth rate \n3. Std Temperature \n4. Std Growth rate \n5. Rows \n6. Mean Cold Growth rate \n7. Mean Hot Growth rate\n")
+        stat = input("1. Mean Temperature \n2. Mean Growth rate \n3. Std Temperature \n4. Std Growth rate \n5. Rows "
+                     "\n6. Mean Cold Growth rate \n7. Mean Hot Growth rate\n")
         while 1:
             if stat == "1":
                 print("Mean Temperature: %s" % (dataStatistics(data, "Mean Temperature")))
@@ -185,7 +197,7 @@ def askInitInput(data):
                 askInitInput(data)
             else:
                 print("Wrong input. Try again.")
-                
+
     # --- OPTION 4: GENERATE PLOTS ---
     elif userInput == "4":
         dataPlot(data)
@@ -197,9 +209,8 @@ def askInitInput(data):
         print("Wrong input. Try again.")
         askInitInput(data)
 
+
 if __name__ == "__main__":
-    
-    
     print("\n\n")
     print("Greetings!")
     data = np.array([])
