@@ -64,17 +64,16 @@ def dataPlot(data):
     plt.xlabel("Bacteria types")
     plt.ylabel("Number of bacteria")
 
-    types = data[:, 2]
-    bacteria1 = len(types[types == 1])
-    bacteria2 = len(types[types == 2]) + bacteria1
-    bacteria3 = len(types[types == 3]) + bacteria2
-    bacteria4 = len(types[types == 4]) + bacteria3
+    bacteria1 = data[data[:, 2] == 1]
+    bacteria2 = data[data[:, 2] == 2]
+    bacteria3 = data[data[:, 2] == 3]
+    bacteria4 = data[data[:, 2] == 4]
 
     plt.subplot(1, 2, 2)
-    plt.scatter(data[:bacteria1, 0], data[:bacteria1, 1], color='red')
-    plt.scatter(data[bacteria1 - 1:bacteria2, 0], data[bacteria1 - 1:bacteria2, 1], color='blue')
-    plt.scatter(data[bacteria2 - 1:bacteria3, 0], data[bacteria2 - 1:bacteria3, 1], color='green')
-    plt.scatter(data[bacteria3 - 1:bacteria4, 0], data[bacteria3 - 1:bacteria4, 1], color='orange')
+    plt.scatter(bacteria1[:, 0], bacteria1[:, 1], color='blue')
+    plt.scatter(bacteria2[:, 0], bacteria2[:, 1], color='green')
+    plt.scatter(bacteria3[:, 0], bacteria3[:, 1], color='orange')
+    plt.scatter(bacteria4[:, 0], bacteria4[:, 1], color ='red')
     plt.xlim([10, 60])
     plt.ylim(0)
     plt.title("Rate vs. temperature")
