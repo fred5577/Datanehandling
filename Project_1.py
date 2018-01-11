@@ -27,13 +27,11 @@ def checkData(arr):
 
     return res
 
-
 def dataLoad(filename):
     # Insert your code here
     data1 = np.genfromtxt(filename, delimiter=' ')
     data1 = checkData(data1)
     return data1
-
 
 def dataStatistics(data, statistic):
     # Insert your code here
@@ -55,17 +53,55 @@ def dataStatistics(data, statistic):
         result = result[result>50].mean()
     return result
 
-
 def dataPlot(data):
-    plt.subplot(1, 4, 1)
+    plt.figure(figsize=(15, 6))
+    plt.subplots_adjust(wspace=0.5)
+    plt.subplot(1, 2, 1)
     plt.hist(data[:, 2], edgecolor='black')
-    plt.xlabel("Number of bacteria")
+    plt.title("Amount of each bacteria type")
+    plt.xlabel("Bacteria types")
+    plt.ylabel("Number of bacteria")
 
-    plt.subplot(1, 4, 2)
+    bacteria1 = data[data[:, 2] == 1]
+    bacteria2 = data[data[:, 2] == 2]
+    bacteria3 = data[data[:, 2] == 3]
+    bacteria4 = data[data[:, 2] == 4]
 
-    plt.scatter(data[:, 0], data[:, 1])
-
+    plt.subplot(1, 2, 2)
+    plt.scatter(bacteria1[:, 0], bacteria1[:, 1], color='blue')
+    plt.scatter(bacteria2[:, 0], bacteria2[:, 1], color='green')
+    plt.scatter(bacteria3[:, 0], bacteria3[:, 1], color='orange')
+    plt.scatter(bacteria4[:, 0], bacteria4[:, 1], color ='red')
+    plt.xlim([10, 60])
+    plt.ylim(0)
+    plt.title("Rate vs. temperature")
+    plt.xlabel("Temperature")
+    plt.ylabel("Growth Rate")
     plt.show()
+
+def dataFilterBact(data,filterType):
+    if filterType == "1":
+        data = data[data[:,2] == 1]
+        return data
+    elif filterType == "2":
+        data = data[data[:,2] == 2]
+        return data
+    elif filterType == "3":
+        data = data[data[:, 2] == 3]
+        return data
+    elif filterType == "4":
+        data = data[data[:, 2] == 4]
+        return data
+
+def dataFilterGrowthRate(data,input1,input2):
+    temp = data
+
+    temp = temp[temp[:, 1] > input1]
+    temp = temp[temp[:, 1] < input2]
+
+    return temp
+
+
 
 def askInitInput(data):
     userInput = input("\n  Type the number corresponding to the action you want to perform. \n1. Load data \n2. Filter data \n3. Display statistic \n4. Generate plots \n5. Quit\n")
@@ -146,6 +182,7 @@ def askInitInput(data):
     else:
         print("Wrong input. Try again.")
         askInitInput(data)
+
 
 if __name__ == "__main__":
     
