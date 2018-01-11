@@ -109,7 +109,6 @@ def dataFilterBact(data,filterType):
         return data
 
 
-def dataFilterGrowthRate(data, input1, input2):
 #Filters the growth rate according to input1 and input2
 def dataFilterGrowthRate(data,input1,input2):
     temp = data
