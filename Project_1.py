@@ -56,14 +56,30 @@ def dataStatistics(data, statistic):
 
 
 def dataPlot(data):
-    plt.subplot(1, 4, 1)
+    plt.figure(figsize=(15, 6))
+    plt.subplots_adjust(wspace=0.5)
+    plt.subplot(1, 2, 1)
     plt.hist(data[:, 2], edgecolor='black')
-    plt.xlabel("Number of bacteria")
+    plt.title("Amount of each bacteria type")
+    plt.xlabel("Bacteria types")
+    plt.ylabel("Number of bacteria")
 
-    plt.subplot(1, 4, 2)
+    types = data[:, 2]
+    bacteria1 = len(types[types == 1])
+    bacteria2 = len(types[types == 2]) + bacteria1
+    bacteria3 = len(types[types == 3]) + bacteria2
+    bacteria4 = len(types[types == 4]) + bacteria3
 
-    plt.scatter(data[:, 0], data[:, 1])
-
+    plt.subplot(1, 2, 2)
+    plt.scatter(data[:bacteria1, 0], data[:bacteria1, 1], color='red')
+    plt.scatter(data[bacteria1 - 1:bacteria2, 0], data[bacteria1 - 1:bacteria2, 1], color='blue')
+    plt.scatter(data[bacteria2 - 1:bacteria3, 0], data[bacteria2 - 1:bacteria3, 1], color='green')
+    plt.scatter(data[bacteria3 - 1:bacteria4, 0], data[bacteria3 - 1:bacteria4, 1], color='orange')
+    plt.xlim([10, 60])
+    plt.ylim(0)
+    plt.title("Rate vs. temperature")
+    plt.xlabel("Temperature")
+    plt.ylabel("Growth Rate")
     plt.show()
 
 if __name__ == "__main__":
