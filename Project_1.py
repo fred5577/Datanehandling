@@ -1,24 +1,29 @@
 import numpy as np
 from matplotlib import pyplot as plt
 
-
+#Removes all the incorrect data
 def checkData(arr):
     res = np.array([])
-
     rounds = int(np.size(arr)/3)
-
+    #Loops through the whole data
     for i in range(rounds):
+        #Is set to true if one if the if cases is true
         fault = False
-
+        #Checks if the temperature is incorrect
         if not(10 < arr[i][0] < 60):
             print("Error temperature: " + str(i+1))
             fault = True
+        #Checks if the growth rate is incorrect
         elif not(arr[i][1] > 0):
             print("Error growth rate: "+str(i+1))
             fault = True
+        #Checks that the bacteria number is either 1, 2, 3 or 4
         elif not(arr[i][2] == 1 or arr[i][2] == 2 or arr[i][2] == 3 or arr[i][2] == 4):
             print("Error bacteria: "+str(i+1))
             fault = True
+
+        #If fault us never set to true the temperature, growth rate and bacteria number all uphold the conditions
+        #They are then rebuild in a new np.array
         if i == 0:
             res = np.array([np.array([arr[i][0], arr[i][1], arr[i][2]])])
             print(res)
@@ -27,14 +32,14 @@ def checkData(arr):
 
     return res
 
+#Loads data in to a numpy array
 def dataLoad(filename):
-    # Insert your code here
     data1 = np.genfromtxt(filename, delimiter=' ')
     data1 = checkData(data1)
     return data1
 
+#Choose betweem getting different data statistics. The name explains what it returns
 def dataStatistics(data, statistic):
-    # Insert your code here
     if statistic == "Mean Temperature":
         result = data[:, 0].mean()
     elif statistic == "Mean Growth rate":
@@ -80,7 +85,10 @@ def dataPlot(data):
     plt.ylabel("Growth Rate")
     plt.show()
 
+
+#Filters the bacteria according to number
 def dataFilterBact(data,filterType):
+    #It returns the data with only the specific bacteria
     if filterType == "1":
         data = data[data[:,2] == 1]
         return data
@@ -94,9 +102,11 @@ def dataFilterBact(data,filterType):
         data = data[data[:, 2] == 4]
         return data
 
+#Filters the growth rate according to input1 and input2
 def dataFilterGrowthRate(data,input1,input2):
     temp = data
 
+    #input1 < growth rate < input2
     temp = temp[temp[:, 1] > input1]
     temp = temp[temp[:, 1] < input2]
 
@@ -116,8 +126,9 @@ def askInitInput(data):
             try:
                 data = dataLoad(textFileName)
                 askInitInput(data)
-            except ValueError:
+            except IOError:
                 print("Can't find file. Try again.")
+                pass
 
     # --- OPTION 2: FILTER DATA
     elif userInput == "2":
