@@ -116,26 +116,17 @@ def askInitInput(data):
                 print("\n  Choose a bacteria.")
                 while 1:
                     bactName = input("1. Salmonella enterica \n2. Bacillus cereus \n3. Listeria \n4. Brochothrix thermosphacta\n")
-                    if bactName == "1":
-                        print()
-                        askInitInput(data)
-                    elif bactName == "2":
-                        print()
-                        askInitInput(data)
-                    elif bactName == "3":
-                        print()
-                        askInitInput(data)
-                    elif bactName == "4":
-                        print()
+                    if bactName == "1" or bactName == "2" or bactName == "3" or bactName == "4":
+                        data = dataFilterBact(data, bactName)
                         askInitInput(data)
                     else:
                         print("Wrong input. Try again")
             elif menu == "2":
                 while 1:
-                    lower = int(input("Choose lower bound: "))
-                    upper = int(input("Choose upper bound: "))
+                    lower = float(input("Choose lower bound: "))
+                    upper = float(input("Choose upper bound: "))
                     if lower < upper:
-                        print("frederiks ting") #TODO
+                        data = dataFilterGrowthRate(data, lower, upper)
                         askInitInput(data)
                     else:
                         print("Lower bound is a bigger number than the upper bound. Try again")
@@ -174,7 +165,7 @@ def askInitInput(data):
                 
         askInitInput(data)
     elif userInput == "4":
-        print("")
+        dataPlot(data)
         askInitInput(data)
     elif userInput == "5":
         quit()
