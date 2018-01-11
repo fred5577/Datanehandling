@@ -71,9 +71,10 @@ def dataPlot(data):
     bac2 = plt.scatter(bacteria2[:, 0], bacteria2[:, 1], color='green')
     bac3 = plt.scatter(bacteria3[:, 0], bacteria3[:, 1], color='orange')
     bac4 = plt.scatter(bacteria4[:, 0], bacteria4[:, 1], color='red')
-    plt.legend((bac1, bac2, bac3, bac4), ('Bacteria 1', 'Bacteria 2', 'Bacteria 3', 'Bacteria 4'))
+    plt.legend((bac1, bac2, bac3, bac4), ('Bacteria 1', 'Bacteria 2', 'Bacteria 3', 'Bacteria 4'),
+               loc='upper right', bbox_to_anchor=(1.2, 1.0))
     plt.xlim([10, 60])
-    plt.ylim(0)
+    plt.ylim([0, 1])
     plt.title("Rate vs. temperature")
     plt.xlabel("Temperature")
     plt.ylabel("Growth Rate")
