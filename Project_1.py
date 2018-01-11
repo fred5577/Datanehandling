@@ -30,9 +30,9 @@ def checkData(arr):
 
 def dataLoad(filename):
     # Insert your code here
-    data = np.genfromtxt(filename, delimiter=' ')
-    data = checkData(data)
-    return data
+    data1 = np.genfromtxt(filename, delimiter=' ')
+    data1 = checkData(data1)
+    return data1
 
 
 def dataStatistics(data, statistic):
@@ -67,9 +67,100 @@ def dataPlot(data):
 
     plt.show()
 
+def askInitInput(data):
+    userInput = input("\n  Type the number corresponding to the action you want to perform. \n1. Load data \n2. Filter data \n3. Display statistic \n4. Generate plots \n5. Quit\n")
+    if userInput == "1":
+        textFileName = input("Input text file's name.\n")
+        data = dataLoad(textFileName)
+        askInitInput(data)
+    elif userInput == "2":
+        print("\n  Choose a filter")
+        while 1:
+            menu = input("1. Filter based on bacteria \n2. Filter based on Growth rate\n")
+            if menu == "1":    
+                print("\n  Choose a bacteria.")
+                while 1:
+                    bactName = input("1. Salmonella enterica \n2. Bacillus cereus \n3. Listeria \n4. Brochothrix thermosphacta\n")
+                    if bactName == "1":
+                        print()
+                        askInitInput(data)
+                    elif bactName == "2":
+                        print()
+                        askInitInput(data)
+                    elif bactName == "3":
+                        print()
+                        askInitInput(data)
+                    elif bactName == "4":
+                        print()
+                        askInitInput(data)
+                    else:
+                        print("Wrong input. Try again")
+            elif menu == "2":
+                while 1:
+                    lower = int(input("Choose lower bound: "))
+                    upper = int(input("Choose upper bound: "))
+                    if lower < upper:
+                        print("frederiks ting") #TODO
+                        askInitInput(data)
+                    else:
+                        print("Lower bound is a bigger number than the upper bound. Try again")
+                    
+            else:
+                print("Wrong input. Try again.")
+                        
+        askInitInput(data)
+    elif userInput == "3":
+        print("\n  Choose statistic to show.")
+        stat = input("1. Mean Temperature \n2. Mean Growth rate \n3. Std Temperature \n4. Std Growth rate \n5. Rows \n6. Mean Cold Growth rate \n7. Mean Hot Growth rate\n")
+        while 1:
+            if stat == "1":
+                print("Mean Temperature: %s" % (dataStatistics(data, "Mean Temperature")))
+                askInitInput(data)
+            elif stat == "2":
+                print("Mean Growth rate: %s" % (dataStatistics(data, "Mean Growth rate")))
+                askInitInput(data)
+            elif stat == "3":
+                print("Std Temperature: %s" % (dataStatistics(data, "Std Temperature")))
+                askInitInput(data)
+            elif stat == "4":
+                print("Std Growth rate: %s" % (dataStatistics(data, "Std Growth rate")))
+                askInitInput(data)
+            elif stat == "5":
+                print("Rows: %s" % (dataStatistics(data, "Rows")))
+                askInitInput(data)
+            elif stat == "6":
+                print("Mean Cold Growth rate: %s" % (dataStatistics(data, "Mean Cold Growth rate")))
+                askInitInput(data)
+            elif stat == "7":
+                print("Mean Hot Growth rate: %s" % (dataStatistics(data, "Mean Hot Growth rate")))
+                askInitInput(data)
+            else:
+                print("Wrong input. Try again.")
+                
+        askInitInput(data)
+    elif userInput == "4":
+        print("")
+        askInitInput(data)
+    elif userInput == "5":
+        quit()
+    else:
+        print("Wrong input. Try again.")
+        askInitInput(data)
+
 if __name__ == "__main__":
-    data = dataLoad('bacteria.txt')
+    
+    
+    print("\n\n")
+    print("Greetings!")
+    data = np.array([])
+    askInitInput(data)
+    
+    
+    
+    
 
-    print(dataStatistics(data, "Mean Hot Growth rate"))
-
-    dataPlot(data)
+    
+    
+    
+    
+   
