@@ -67,10 +67,11 @@ def dataPlot(data):
     bacteria4 = data[data[:, 2] == 4]
 
     plt.subplot(1, 2, 2)
-    plt.scatter(bacteria1[:, 0], bacteria1[:, 1], color='blue')
-    plt.scatter(bacteria2[:, 0], bacteria2[:, 1], color='green')
-    plt.scatter(bacteria3[:, 0], bacteria3[:, 1], color='orange')
-    plt.scatter(bacteria4[:, 0], bacteria4[:, 1], color ='red')
+    bac1 = plt.scatter(bacteria1[:, 0], bacteria1[:, 1], color='blue')
+    bac2 = plt.scatter(bacteria2[:, 0], bacteria2[:, 1], color='green')
+    bac3 = plt.scatter(bacteria3[:, 0], bacteria3[:, 1], color='orange')
+    bac4 = plt.scatter(bacteria4[:, 0], bacteria4[:, 1], color='red')
+    plt.legend((bac1, bac2, bac3, bac4), ('Bacteria 1', 'Bacteria 2', 'Bacteria 3', 'Bacteria 4'))
     plt.xlim([10, 60])
     plt.ylim(0)
     plt.title("Rate vs. temperature")
@@ -104,6 +105,6 @@ def dataFilterGrowthRate(data,input1,input2):
 if __name__ == "__main__":
     data = dataLoad('bacteria.txt')
 
-    print(dataStatistics(data,"Mean Hot Growth rate"))
+    print(dataStatistics(data, "Mean Hot Growth rate"))
 
     dataPlot(data)
