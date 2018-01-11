@@ -27,13 +27,11 @@ def checkData(arr):
 
     return res
 
-
 def dataLoad(filename):
     # Insert your code here
     data = np.genfromtxt(filename, delimiter=' ')
     data = checkData(data)
     return data
-
 
 def dataStatistics(data, statistic):
     # Insert your code here
@@ -53,7 +51,6 @@ def dataStatistics(data, statistic):
         result = data[:, 1].mean()
 
     return result
-
 
 def dataPlot(data):
     plt.figure(figsize=(15, 6))
@@ -81,9 +78,32 @@ def dataPlot(data):
     plt.ylabel("Growth Rate")
     plt.show()
 
+def dataFilterBact(data,filterType):
+    if filterType == "1":
+        data = data[data[:,2] == 1]
+        return data
+    elif filterType == "2":
+        data = data[data[:,2] == 2]
+        return data
+    elif filterType == "3":
+        data = data[data[:, 2] == 3]
+        return data
+    elif filterType == "4":
+        data = data[data[:, 2] == 4]
+        return data
+
+def dataFilterGrowthRate(data,input1,input2):
+    temp = data
+
+    temp = temp[temp[:, 1] > input1]
+    temp = temp[temp[:, 1] < input2]
+
+    return temp
+
+
 if __name__ == "__main__":
     data = dataLoad('bacteria.txt')
 
-    print(dataStatistics(data, "Mean Hot Growth rate"))
+    print(dataStatistics(data,"Mean Hot Growth rate"))
 
     dataPlot(data)
