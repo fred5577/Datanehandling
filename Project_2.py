@@ -3,7 +3,8 @@ import pandas as pd
 from matplotlib import pyplot as plt
 import random
 
-
+# Purpose of function is to round a vector of grades, to the nearest on the 7-step-scale
+# Input and output is a vector of arbitrary length
 def roundGrade(grades):
     sevenStep = np.array([-3, 0, 2, 4, 7, 10, 12])
     gradesRounded = []
@@ -11,9 +12,10 @@ def roundGrade(grades):
         gradesRounded.append(min(sevenStep, key=lambda x: abs(x-grade)))
     return gradesRounded
 
+
 #NxM, n students and m assignments
 def computeFinalGrades(grades):
-    (x,y) = np.shape(grades)
+    (x, y) = np.shape(grades)
     gradesFinal = np.array([])
 
     if x == 1:
@@ -31,25 +33,27 @@ def computeFinalGrades(grades):
 
     return roundGrade(gradesFinal)
 
-def displayData(panda):
-    namesAndGrades = panda.drop(['StudieID'],axis=1)
+
+def displayData(data):
+    namesAndGrades = data.drop(['StudieID'], axis=1)
     print("\nNames and grades for the students assignments")
     namesAndGrades = namesAndGrades.sort_values(by=['Name'])
     namesAndGrades.set_index('Name', inplace=True)
     print(namesAndGrades)
-    namesAndGrades = panda.drop(['StudieID'], axis=1).values
-    namesAndGrades = namesAndGrades[namesAndGrades[:,0].sort()]
+    namesAndGrades = data.drop(['StudieID'], axis=1).values
+    namesAndGrades = namesAndGrades[namesAndGrades[:, 0].sort()]
     namesAndGrades = namesAndGrades[0]
-    temp = computeFinalGrades(np.transpose(namesAndGrades[:,2:]))
-    out = np.vstack((namesAndGrades[:,0],temp))
+    temp = computeFinalGrades(np.transpose(namesAndGrades[:, 2:]))
+    out = np.vstack((namesAndGrades[:, 0], temp))
+
     print("\nThe finale grades for the students assignments")
-    printOut = pd.DataFrame(np.transpose(out),columns=['Name','Finale grade'])
+    printOut = pd.DataFrame(np.transpose(out),columns=['Name', 'Finale grade'])
     printOut.set_index('Name', inplace=True)
     print(printOut)
     print("\n\n")
 
-def gradesPlot(data):
-    grades = data.drop(['StudieID', 'Name'], axis=1).values.T
+
+def gradesPlot(grades):
     final = computeFinalGrades(grades)
     
     #Setup the figure to contain both plots
@@ -59,7 +63,7 @@ def gradesPlot(data):
     
     #Plot the histogram for the final grades
     plt.hist(final, rwidth=0.75, edgecolor='black')
-    plt.title("Amount of each grade")
+    plt.title("Grades for each student")
     plt.xlabel("Grades")
     plt.ylabel("Number of students")
     
@@ -78,23 +82,26 @@ def gradesPlot(data):
         iList = np.zeros(y)
         for k in range(y):
             iList[k] = i+(random.random()*2*0.1)-0.1
-        plt.scatter(iList,gradesRandomized[i,:])
+        plt.scatter(iList, gradesRandomized[i, :], label='Assignment %s' % i)
     
     #Calculate a vector with the mean of each assignment
     avg = np.zeros(x)
     for i in range(x):
-        avg[i] = np.mean(grades[i,:])
+        avg[i] = np.mean(grades[i, :])
     
     #Plot the line of averages
-    plt.plot(avg, '-')
-    
-    #Show the two subplots
-    plt.title("Grades")
+    plt.plot(avg, '-', label='Avg. assignment grade')
+
+    plt.title("Grades for each assignment")
     plt.xlabel("Assignment")
     plt.ylabel("Grade")
+    plt.legend(loc='upper right', fontsize=8, bbox_to_anchor=(1.2, 1))
+    #Show the two subplots
     plt.show()
     
-
+# Purpose of function is to spot errors in the data, and print an error report.
+# Input is an NxM matrix, holding students (studyID, Name) and their grades on a series of assignments
+# Function has no output, but shows the error report to the console.
 def checkDataErrors(data):
     studieIDS = data['StudieID'].values
     grades = data.drop(['StudieID', 'Name'], axis=1).values
@@ -109,6 +116,7 @@ def checkDataErrors(data):
 
     print("\n")
 
+# Purpose of function is to print the amount of assignments and students
 def printDescription(data):
     assignmentAmount, studentAmount = data.shape
     print("Number of students in file: %s" % (studentAmount-1))
@@ -188,7 +196,8 @@ def startProgram():
         # ------------------------------------------------------------------
         # 3. Generate plots
         elif choice == 3:
-            gradesPlot(data)
+            grades = data.drop(['StudieID', 'Name'], axis=1).values.T
+            gradesPlot(grades)
         # ------------------------------------------------------------------
         # 4. Display list of grades
         elif choice == 4:
