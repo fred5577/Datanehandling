@@ -54,7 +54,11 @@ def displayData(data):
     print(printOut)
     print("\n\n")
 
-
+#Purpose:       Plot the grades against each other, while calculating an average for each assignment. 
+#Input:         N x M matrix of grades, where N is different assignments and M is students. This is the opposite of
+#               what the assignment asks of us but we fix this by transposing the data, so the result is correct.
+#Output:        Plots
+#Created by:    Thomas Løye Skafte s153047
 def gradesPlot(grades):
     final = computeFinalGrades(grades)
 
@@ -109,6 +113,7 @@ def gradesPlot(grades):
     # Plot the line of averages
     plt.plot(avg, '-', label="Avg. grade")
 
+    #Customize the ticks to make the plot prettier
     plt.xticks(np.arange(0, x + 1, 1), )
 
     # Show the two subplots
