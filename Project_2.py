@@ -46,6 +46,7 @@ def displayData(panda):
     printOut = pd.DataFrame(np.transpose(out),columns=['Name','Finale grade'])
     printOut.set_index('Name', inplace=True)
     print(printOut)
+    print("\n\n")
 
 def gradesPlot(data):
     grades = data.drop(['StudieID', 'Name'], axis=1).values.T
@@ -116,7 +117,7 @@ def printDescription(data):
 
 def dataLoad():
     while True:
-        filename = input("Enter name of CSV-file")
+        filename = input("Enter name of CSV-file : ")
         try:
             data = pd.read_csv(filename, quotechar='"')
             break
@@ -191,8 +192,7 @@ def startProgram():
         # ------------------------------------------------------------------
         # 4. Display list of grades
         elif choice == 4:
-            print("ehh")
-            #displayGrades(data)
+            displayData(data)
         # ------------------------------------------------------------------
         # 5. Quit
         elif choice == 5:
