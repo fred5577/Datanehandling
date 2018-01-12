@@ -1,5 +1,4 @@
 import numpy as np
-
 #Program for grading students
 
 def roundGrade(grades):
@@ -7,7 +6,6 @@ def roundGrade(grades):
     gradesRounded = []
     for grade in grades:
         gradesRounded.append(min(sevenStep, key=lambda x: abs(x-grade)))
-
     return gradesRounded
 
 #NxM, n students and m assignments
@@ -28,7 +26,7 @@ def computeFinalGrades(grades):
             tempM = tempArray.mean()
             gradesFinal = np.append(gradesFinal, tempM)
 
-    return gradesFinal
+    return roundGrade(gradesFinal)
 
 
 def dataLoad():
@@ -42,7 +40,11 @@ def dataLoad():
             print("Can't find the fucking file you moron")
             pass
 
-    return data
+
+def loadData(filname):
+    my_data = pd.read_csv(filname, quotechar='"')
+    return my_data
+
 
 # INPUTNUMBER Prompts user to input a number
 #
