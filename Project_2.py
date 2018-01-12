@@ -1,6 +1,6 @@
 import numpy as np
 import pandas as pd
-#Program for grading students
+
 
 def roundGrade(grades):
     sevenStep = np.array([-3, 0, 2, 4, 7, 10, 12])
@@ -30,21 +30,20 @@ def computeFinalGrades(grades):
     return roundGrade(gradesFinal)
 
 
+def checkDataErrors(data):
+    studieIDS = data['StudieID'].values
+    
+
 def dataLoad():
     while True:
+        filename = input("Enter name of CSV-file")
         try:
-            file = input("Enter name of CSV-file")
-            #data = dataLoad(file)
-            data = 1
+            data = pd.read_csv(filename, quotechar='"')
             break
-        except ValueError:
+        except FileNotFoundError:
             print("Can't find the fucking file you moron")
             pass
-
-
-def loadData(filname):
-    my_data = pd.read_csv(filname, quotechar='"')
-    return my_data
+    return data
 
 
 # INPUTNUMBER Prompts user to input a number
@@ -104,7 +103,7 @@ def startProgram():
         # ------------------------------------------------------------------
         # 2. Check for data errors
         elif choice == 2:
-            #checkDataErrors(data)
+            checkDataErrors(data)
             print("bla")
         # ------------------------------------------------------------------
         # 3. Generate plots
