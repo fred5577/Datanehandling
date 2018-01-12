@@ -242,6 +242,8 @@ def startProgram():
         elif choice == 5:
             # End
             break
+        else:
+            print("Wrong user input, please try again")
 
 
 if __name__ == "__main__":
