@@ -3,6 +3,7 @@ import pandas as pd
 from matplotlib import pyplot as plt
 import random
 
+
 # Purpose of function is to round a vector of grades, to the nearest on the 7-step-scale
 # Input and output is a vector of arbitrary length
 # Author: Jacob Pjetursson, s153718, 2018
@@ -10,11 +11,11 @@ def roundGrade(grades):
     sevenStep = np.array([-3, 0, 2, 4, 7, 10, 12])
     gradesRounded = []
     for grade in grades:
-        gradesRounded.append(min(sevenStep, key=lambda x: abs(x-grade)))
+        gradesRounded.append(min(sevenStep, key=lambda x: abs(x - grade)))
     return gradesRounded
 
 
-#NxM, n students and m assignments
+# NxM, n students and m assignments
 def computeFinalGrades(grades):
     (x, y) = np.shape(grades)
     gradesFinal = np.array([])
@@ -26,7 +27,7 @@ def computeFinalGrades(grades):
         temp = grades[:, i]
         if np.amin(temp) == -3:
             gradesFinal = np.append(gradesFinal, -3)
-        else :
+        else:
             tempMin = np.argmin(temp)
             tempArray = np.delete(temp, tempMin)
             tempM = tempArray.mean()
@@ -48,76 +49,76 @@ def displayData(data):
     out = np.vstack((namesAndGrades[:, 0], temp))
 
     print("\nThe finale grades for the students assignments")
-    printOut = pd.DataFrame(np.transpose(out),columns=['Name', 'Finale grade'])
+    printOut = pd.DataFrame(np.transpose(out), columns=['Name', 'Finale grade'])
     printOut.set_index('Name', inplace=True)
     print(printOut)
     print("\n\n")
 
 
 def gradesPlot(grades):
-    grades = data.drop(['StudieID', 'Name'], axis=1).values.T
     final = computeFinalGrades(grades)
-    
-    #Setup the figure to contain both plots
+
+    # Setup the figure to contain both plots
     plt.figure(figsize=(15, 6))
     plt.subplots_adjust(wspace=0.5)
-    #------ FIRST PLOT :-------
+    # ------ FIRST PLOT :-------
     plt.subplot(1, 2, 1)
-    
-    #Setup a bin containing all kinds of grades
-    bins = np.array([-3,0,2,4,7,10,12])
-    
-    #Create a dictionary to count grades and convert it to a list
-    dict = {-3:0 , 0:0 , 2:0 , 4:0 , 7:0 , 10:0 , 12:0}
+
+    # Setup a bin containing all kinds of grades
+    bins = np.array([-3, 0, 2, 4, 7, 10, 12])
+
+    # Create a dictionary to count grades and convert it to a list
+    dict = {-3: 0, 0: 0, 2: 0, 4: 0, 7: 0, 10: 0, 12: 0}
     for i in range(np.size(final)):
         dict[final[i]] += 1
     totals = list(dict.values())
-    
-    #Plot the bar for the final grades
-    plt.bar(bins,totals)
-    
-    #Customize ticks to make the plot prettier
-    plt.xticks(bins,('-3','00','02','4','7','10','12'))
-    plt.yticks(np.arange(0,np.max(totals)+1,1))
-    
-    plt.title("Amount of each grade")
+
+    # Plot the bar for the final grades
+    plt.bar(bins, totals)
+
+    # Customize ticks to make the plot prettier
+    plt.xticks(bins, ('-3', '00', '02', '4', '7', '10', '12'))
+    plt.yticks(np.arange(0, np.max(totals) + 1, 1))
+
+    plt.title("Final grades")
     plt.xlabel("Grades")
     plt.ylabel("Number of students")
-    
-    #-----SECOND PLOT :-----
-    
-    #Setup for the Scatterplot
+
+    # -----SECOND PLOT :-----
+    # Setup for the Scatterplot
     (x, y) = np.shape(grades)
     gradesRandomized = grades.astype(float)
-    #Randomize the +/-0.1 for each value in the grades matrix
+    # Randomize the +/-0.1 for each value in the grades matrix
     for k in range(y):
         for i in range(x):
-            gradesRandomized[i][k] = grades[i][k]+((random.random()*2*0.1)-0.1)
- 
-    
-    plt.subplot(1,2,2)
-    #Loop through every row of the grades matrix and create a scatterplot for each, with the x value 'i +/-0.1'
+            gradesRandomized[i][k] = grades[i][k] + ((random.random() * 2 * 0.1) - 0.1)
+
+    plt.subplot(1, 2, 2)
+    # Loop through every row of the grades matrix and create a scatterplot for each, with the x value 'i +/-0.1'
     for i in range(x):
         iList = np.zeros(y)
         for k in range(y):
-            iList[k] = i+(random.random()*2*0.1)-0.1
-        plt.scatter(iList,gradesRandomized[i,:])
-    
-    #Calculate a vector with the mean of each assignment
+            iList[k] = i + (random.random() * 2 * 0.1) - 0.1
+        plt.scatter(iList, gradesRandomized[i, :], label="Assignment %s" % i)
+
+    # Calculate a vector with the mean of each assignment
     avg = np.zeros(x)
     for i in range(x):
-        avg[i] = np.mean(grades[i,:])
-    
-    #Plot the line of averages
-    plt.plot(avg, '-')
-    
-    #Show the two subplots
-    plt.title("Grades")
+        avg[i] = np.mean(grades[i, :])
+
+    # Plot the line of averages
+    plt.plot(avg, '-', label="Avg. grade")
+
+    plt.xticks(np.arange(0, x + 1, 1), )
+
+    # Show the two subplots
+    plt.legend(loc='upper right', fontsize=8, bbox_to_anchor=(1.2, 1.0))
+    plt.title("Grades per assignment")
     plt.xlabel("Assignment")
     plt.ylabel("Grade")
     plt.show()
-    
-    
+
+
 # Purpose of function is to spot errors in the data, and print an error report.
 # Input is an NxM matrix, holding students (studyID, Name) and their grades on a series of assignments
 # Function has no output, but shows the error report to the console.
@@ -132,9 +133,10 @@ def checkDataErrors(data):
     for i in range(len(grades)):
         for j in range(len(grades[i])):
             if grades[i][j] not in seven:
-                print("%s is not on 7-step-scale, for assignment %s, student %s" % (grades[i][j], i+1, studieIDS[j]))
+                print("%s is not on 7-step-scale, for assignment %s, student %s" % (grades[i][j], i + 1, studieIDS[j]))
 
     print("\n")
+
 
 # Purpose of function is to print the amount of assignments and students
 # Input is an NxM matrix, holding students (studyID, Name) and their grades on a series of assignments
@@ -142,8 +144,9 @@ def checkDataErrors(data):
 # Author: Jacob Pjetursson, s153718, 2018
 def printDescription(data):
     assignmentAmount, studentAmount = data.shape
-    print("Number of students in file: %s" % (studentAmount-1))
-    print("Number of assignments in file: %s" % (assignmentAmount-2))
+    print("Number of students in file: %s" % (studentAmount - 1))
+    print("Number of assignments in file: %s" % (assignmentAmount - 2))
+
 
 # Purpose of function is to load in data from a filename specified by the user
 # Function has no input (other than user input)
@@ -190,13 +193,14 @@ def inputNumber(prompt):
 def displayMenu(options):
     # Display menu options
     for i in range(len(options)):
-        print("{:d}. {:s}".format(i+1, options[i]))
+        print("{:d}. {:s}".format(i + 1, options[i]))
     # Get a valid menu choice
     choice = 0
-    while not(np.any(choice == np.arange(len(options))+1)):
+    while not (np.any(choice == np.arange(len(options)) + 1)):
         choice = inputNumber("Please choose a menu item: ")
 
     return choice
+
 
 def startProgram():
     # INITIAL FILE LOAD IN:
@@ -234,7 +238,7 @@ def startProgram():
             # End
             break
 
+
 if __name__ == "__main__":
     print("\n Greetings!")
     startProgram()
-
