@@ -1,4 +1,5 @@
 import numpy as np
+
 #Program for grading students
 
 
@@ -7,6 +8,99 @@ def roundGrade(grades):
     gradesRounded = []
     for grade in grades:
         gradesRounded.append(min(sevenStep, key=lambda x: abs(x-grade)))
+
     return gradesRounded
 
 
+def dataLoad():
+    while True:
+        try:
+            file = input("Enter name of CSV-file")
+            #data = dataLoad(file)
+            data = 1
+            break
+        except ValueError:
+            print("Can't find the fucking file you moron")
+            pass
+
+    return data
+
+# INPUTNUMBER Prompts user to input a number
+#
+# Usage: num = inputNumber(prompt) Displays prompt and asks user to input a
+# number. Repeats until user inputs a valid number.
+#
+# Author: Mikkel N. Schmidt, mnsc@dtu.dk, 2015
+def inputNumber(prompt):
+    while True:
+        try:
+            num = float(input(prompt))
+            break
+        except ValueError:
+            pass
+    return num
+
+
+# DISPLAYMENU Displays a menu of options, ask the user to choose an item
+# and returns the number of the menu item chosen.
+#
+# Usage: choice = displayMenu(options)
+#
+# Input options Menu options (array of strings)
+# Output choice Chosen option (integer)
+#
+# Author: Mikkel N. Schmidt, mnsc@dtu.dk, 2015
+def displayMenu(options):
+    # Display menu options
+    for i in range(len(options)):
+        print("{:d}. {:s}".format(i+1, options[i]))
+    # Get a valid menu choice
+    choice = 0
+    while not(np.any(choice == np.arange(len(options))+1)):
+        choice = inputNumber("Please choose a menu item: ")
+
+    return choice
+
+def startProgram():
+    # INITIAL FILE LOAD IN:
+    data = dataLoad()
+    #printDescription(data)
+
+    # Define menu items
+    menuItems = np.array(["Load new data", "Check for data errors",
+                          "Generate plots", "Display list of grades", "Quit"])
+    # Start
+    while True:
+        # Display menu options and ask user to choose a menu item
+        choice = displayMenu(menuItems)
+        # Menu item chosen
+        # ------------------------------------------------------------------
+        # 1. Enter name
+        if choice == 1:
+            # Load new data
+            data = dataLoad()
+        # ------------------------------------------------------------------
+        # 2. Check for data errors
+        elif choice == 2:
+            #checkDataErrors(data)
+            print("bla")
+        # ------------------------------------------------------------------
+        # 3. Generate plots
+        elif choice == 3:
+            #gradesPlot(data)
+            print("meh")
+        # ------------------------------------------------------------------
+        # 4. Display list of grades
+        elif choice == 4:
+            #displayGrades(data)
+            print("diller")
+        # ------------------------------------------------------------------
+        # 5. Quit
+        elif choice == 5:
+            # End
+            break
+
+if __name__ == "__main__":
+
+    print("\n Greetings!")
+    startProgram()
