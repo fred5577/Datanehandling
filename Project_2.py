@@ -5,6 +5,7 @@ import random
 
 # Purpose of function is to round a vector of grades, to the nearest on the 7-step-scale
 # Input and output is a vector of arbitrary length
+# Author: Jacob Pjetursson, s153718, 2018
 def roundGrade(grades):
     sevenStep = np.array([-3, 0, 2, 4, 7, 10, 12])
     gradesRounded = []
@@ -120,6 +121,7 @@ def gradesPlot(grades):
 # Purpose of function is to spot errors in the data, and print an error report.
 # Input is an NxM matrix, holding students (studyID, Name) and their grades on a series of assignments
 # Function has no output, but shows the error report to the console.
+# Author: Jacob Pjetursson, s153718, 2018
 def checkDataErrors(data):
     studieIDS = data['StudieID'].values
     grades = data.drop(['StudieID', 'Name'], axis=1).values
@@ -135,12 +137,18 @@ def checkDataErrors(data):
     print("\n")
 
 # Purpose of function is to print the amount of assignments and students
+# Input is an NxM matrix, holding students (studyID, Name) and their grades on a series of assignments
+# Function has no output
+# Author: Jacob Pjetursson, s153718, 2018
 def printDescription(data):
     assignmentAmount, studentAmount = data.shape
     print("Number of students in file: %s" % (studentAmount-1))
     print("Number of assignments in file: %s" % (assignmentAmount-2))
 
-
+# Purpose of function is to load in data from a filename specified by the user
+# Function has no input (other than user input)
+# Function outputs the data from the file which has been loaded in
+# Author: Jacob Pjetursson, s153718, 2018
 def dataLoad():
     while True:
         filename = input("Enter name of CSV-file : ")
