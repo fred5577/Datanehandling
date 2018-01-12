@@ -64,11 +64,11 @@ def gradesPlot(data):
     
     #Setup for the Scatterplot
     (x, y) = np.shape(grades)
-    grades = grades.astype(float)
+    gradesRandomized = grades.astype(float)
     #Randomize the +/-0.1 for each value in the grades matrix
     for k in range(y):
         for i in range(x):
-            grades[i][k] = grades[i][k]+((random.random()*2*0.1)-0.1)
+            gradesRandomized[i][k] = grades[i][k]+((random.random()*2*0.1)-0.1)
  
     
     plt.subplot(1,2,2)
@@ -77,7 +77,7 @@ def gradesPlot(data):
         iList = np.zeros(y)
         for k in range(y):
             iList[k] = i+(random.random()*2*0.1)-0.1
-        plt.scatter(iList,grades[i,:])
+        plt.scatter(iList,gradesRandomized[i,:])
     
     #Calculate a vector with the mean of each assignment
     avg = np.zeros(x)
