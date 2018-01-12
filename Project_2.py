@@ -32,7 +32,7 @@ def computeFinalGrades(grades):
     return roundGrade(gradesFinal)
 
 def gradesPlot(data):
-    grades = data.drop(['StudieID', 'Name'], axis=1).values
+    grades = data.drop(['StudieID', 'Name'], axis=1).values.T
     final = computeFinalGrades(grades)
     
     #Setup the figure to contain both plots
@@ -41,13 +41,13 @@ def gradesPlot(data):
     plt.subplot(1, 2, 1)
     
     #Plot the histogram for the final grades
-    plt.hist(final, rwidth = 0.75, edgecolor='black')
+    plt.hist(final, rwidth=0.75, edgecolor='black')
     plt.title("Amount of each grade")
     plt.xlabel("Grades")
     plt.ylabel("Number of students")
     
     #Setup for the Scatterplot
-    (x,y) = np.shape(grades)
+    (x, y) = np.shape(grades)
     grades = grades.astype(float)
     #Randomize the +/-0.1 for each value in the grades matrix
     for k in range(y):
@@ -55,21 +55,21 @@ def gradesPlot(data):
             grades[i][k] = grades[i][k]+((random.random()*2*0.1)-0.1)
  
     
-    plt.subplot(1,2,2)
+    plt.subplot(1, 2, 2)
     #Loop through every row of the grades matrix and create a scatterplot for each, with the x value 'i +/-0.1'
     for i in range(x):
         iList = np.zeros(y)
         for k in range(y):
             iList[k] = i+(random.random()*2*0.1)-0.1
-        plt.scatter(iList,grades[i,:])
+        plt.scatter(iList, grades[i, :])
     
     #Calculate a vector with the mean of each assignment
     avg = np.zeros(x)
     for i in range(x):
-        avg[i] = np.mean(grades[i,:])
+        avg[i] = np.mean(grades[i, :])
     
     #Plot the line of averages
-    plt.plot(avg,'-')
+    plt.plot(avg, '-')
     
     #Show the two subplots
     plt.title("Grades")
@@ -90,6 +90,7 @@ def checkDataErrors(data):
             if grades[i][j] not in seven:
                 print("%s is not on 7-step-scale, for assignment %s, student %s" % (grades[i][j], i+1, studieIDS[j]))
 
+    print("\n")
 
 def printDescription(data):
     assignmentAmount, studentAmount = data.shape
