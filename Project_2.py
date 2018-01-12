@@ -54,18 +54,36 @@ def displayData(data):
 
 
 def gradesPlot(grades):
+    grades = data.drop(['StudieID', 'Name'], axis=1).values.T
     final = computeFinalGrades(grades)
     
     #Setup the figure to contain both plots
     plt.figure(figsize=(15, 6))
     plt.subplots_adjust(wspace=0.5)
+    #------ FIRST PLOT :-------
     plt.subplot(1, 2, 1)
     
-    #Plot the histogram for the final grades
-    plt.hist(final, rwidth=0.75, edgecolor='black')
-    plt.title("Grades for each student")
+    #Setup a bin containing all kinds of grades
+    bins = np.array([-3,0,2,4,7,10,12])
+    
+    #Create a dictionary to count grades and convert it to a list
+    dict = {-3:0 , 0:0 , 2:0 , 4:0 , 7:0 , 10:0 , 12:0}
+    for i in range(np.size(final)):
+        dict[final[i]] += 1
+    totals = list(dict.values())
+    
+    #Plot the bar for the final grades
+    plt.bar(bins,totals)
+    
+    #Customize ticks to make the plot prettier
+    plt.xticks(bins,('-3','00','02','4','7','10','12'))
+    plt.yticks(np.arange(0,np.max(totals)+1,1))
+    
+    plt.title("Amount of each grade")
     plt.xlabel("Grades")
     plt.ylabel("Number of students")
+    
+    #-----SECOND PLOT :-----
     
     #Setup for the Scatterplot
     (x, y) = np.shape(grades)
@@ -82,22 +100,22 @@ def gradesPlot(grades):
         iList = np.zeros(y)
         for k in range(y):
             iList[k] = i+(random.random()*2*0.1)-0.1
-        plt.scatter(iList, gradesRandomized[i, :], label='Assignment %s' % i)
+        plt.scatter(iList,gradesRandomized[i,:])
     
     #Calculate a vector with the mean of each assignment
     avg = np.zeros(x)
     for i in range(x):
-        avg[i] = np.mean(grades[i, :])
+        avg[i] = np.mean(grades[i,:])
     
     #Plot the line of averages
-    plt.plot(avg, '-', label='Avg. assignment grade')
-
-    plt.title("Grades for each assignment")
+    plt.plot(avg, '-')
+    
+    #Show the two subplots
+    plt.title("Grades")
     plt.xlabel("Assignment")
     plt.ylabel("Grade")
-    plt.legend(loc='upper right', fontsize=8, bbox_to_anchor=(1.2, 1))
-    #Show the two subplots
     plt.show()
+    
     
 # Purpose of function is to spot errors in the data, and print an error report.
 # Input is an NxM matrix, holding students (studyID, Name) and their grades on a series of assignments
