@@ -1,5 +1,7 @@
 import numpy as np
 import pandas as pd
+from matplotlib import pyplot as plt
+import random
 
 
 def roundGrade(grades):
@@ -28,51 +30,9 @@ def computeFinalGrades(grades):
             gradesFinal = np.append(gradesFinal, tempM)
 
     return roundGrade(gradesFinal)
-def gradesPlot(grades):
-    final = computeFinalGrades(grades)
-    
-    #Setup the figure to contain both plots
-    plt.figure(figsize=(15, 6))
-    plt.subplots_adjust(wspace=0.5)
-    plt.subplot(1, 2, 1)
-    
-    #Plot the histogram for the final grades
-    plt.hist(final, rwidth = 0.75, edgecolor='black')
-    plt.title("Amount of each grade")
-    plt.xlabel("Grades")
-    plt.ylabel("Number of students")
-    
-    #Setup for the Scatterplot
-    (x,y) = np.shape(grades)
-    grades = grades.astype(float)
-    #Randomize the +/-0.1 for each value in the grades matrix
-    for k in range(y):
-        for i in range(x):
-            grades[i][k] = grades[i][k]+((random.random()*2*0.1)-0.1)
- 
-    
-    plt.subplot(1,2,2)
-    #Loop through every row of the grades matrix and create a scatterplot for each, with the x value 'i +/-0.1'
-    for i in range(x):
-        iList = np.zeros(y)
-        for k in range(y):
-            iList[k] = i+(random.random()*2*0.1)-0.1
-        plt.scatter(iList,grades[i,:])
-    
-    avg = np.zeros(x)
-    for i in range(x):
-        avg[i] = np.mean(grades[i,:])
-    
-    plt.plot(avg,'-')
-    
-    plt.title("Grades")
-    plt.xlabel("Assignment")
-    plt.ylabel("Grade")
-    plt.show
-    
-def gradesPlot(grades):
-    
-    
+
+def gradesPlot(data):
+    grades = data.drop(['StudieID', 'Name'], axis=1).values
     final = computeFinalGrades(grades)
     
     #Setup the figure to contain both plots
@@ -115,7 +75,7 @@ def gradesPlot(grades):
     plt.title("Grades")
     plt.xlabel("Assignment")
     plt.ylabel("Grade")
-    plt.show
+    plt.show()
     
 
 def checkDataErrors(data):
@@ -130,10 +90,12 @@ def checkDataErrors(data):
             if grades[i][j] not in seven:
                 print("%s is not on 7-step-scale, for assignment %s, student %s" % (grades[i][j], i+1, studieIDS[j]))
 
+
 def printDescription(data):
     assignmentAmount, studentAmount = data.shape
     print("Number of students in file: %s" % (studentAmount-1))
     print("Number of assignments in file: %s" % (assignmentAmount-2))
+
 
 def dataLoad():
     while True:
@@ -208,13 +170,12 @@ def startProgram():
         # ------------------------------------------------------------------
         # 3. Generate plots
         elif choice == 3:
-            #gradesPlot(data)
-            print("meh")
+            gradesPlot(data)
         # ------------------------------------------------------------------
         # 4. Display list of grades
         elif choice == 4:
+            print("ehh")
             #displayGrades(data)
-            print("diller")
         # ------------------------------------------------------------------
         # 5. Quit
         elif choice == 5:
