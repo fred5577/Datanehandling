@@ -31,6 +31,22 @@ def computeFinalGrades(grades):
 
     return roundGrade(gradesFinal)
 
+def displayData(panda):
+    namesAndGrades = panda.drop(['StudieID'],axis=1)
+    print("\nNames and grades for the students assignments")
+    namesAndGrades = namesAndGrades.sort_values(by=['Name'])
+    namesAndGrades.set_index('Name', inplace=True)
+    print(namesAndGrades)
+    namesAndGrades = panda.drop(['StudieID'], axis=1).values
+    namesAndGrades = namesAndGrades[namesAndGrades[:,0].sort()]
+    namesAndGrades = namesAndGrades[0]
+    temp = computeFinalGrades(np.transpose(namesAndGrades[:,2:]))
+    out = np.vstack((namesAndGrades[:,0],temp))
+    print("\nThe finale grades for the students assignments")
+    printOut = pd.DataFrame(np.transpose(out),columns=['Name','Finale grade'])
+    printOut.set_index('Name', inplace=True)
+    print(printOut)
+
 def gradesPlot(data):
     grades = data.drop(['StudieID', 'Name'], axis=1).values.T
     final = computeFinalGrades(grades)
@@ -55,18 +71,18 @@ def gradesPlot(data):
             grades[i][k] = grades[i][k]+((random.random()*2*0.1)-0.1)
  
     
-    plt.subplot(1, 2, 2)
+    plt.subplot(1,2,2)
     #Loop through every row of the grades matrix and create a scatterplot for each, with the x value 'i +/-0.1'
     for i in range(x):
         iList = np.zeros(y)
         for k in range(y):
             iList[k] = i+(random.random()*2*0.1)-0.1
-        plt.scatter(iList, grades[i, :])
+        plt.scatter(iList,grades[i,:])
     
     #Calculate a vector with the mean of each assignment
     avg = np.zeros(x)
     for i in range(x):
-        avg[i] = np.mean(grades[i, :])
+        avg[i] = np.mean(grades[i,:])
     
     #Plot the line of averages
     plt.plot(avg, '-')
