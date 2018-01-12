@@ -103,12 +103,15 @@ def gradesPlot(grades):
             iList[k] = i+(random.random()*2*0.1)-0.1
         plt.scatter(iList,grades[i,:])
     
+    #Calculate a vector with the mean of each assignment
     avg = np.zeros(x)
     for i in range(x):
         avg[i] = np.mean(grades[i,:])
     
+    #Plot the line of averages
     plt.plot(avg,'-')
     
+    #Show the two subplots
     plt.title("Grades")
     plt.xlabel("Assignment")
     plt.ylabel("Grade")
