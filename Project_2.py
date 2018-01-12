@@ -120,7 +120,20 @@ def gradesPlot(grades):
 
 def checkDataErrors(data):
     studieIDS = data['StudieID'].values
-    
+    grades = data.drop(['StudieID', 'Name'], axis=1).values
+    if np.unique(studieIDS).size != len(studieIDS):
+        print("Study-ids are not unique! \n")
+
+    seven = [-3, 0, 2, 4, 7, 10, 12]
+    for i in range(len(grades)):
+        for j in range(len(grades[i])):
+            if grades[i][j] not in seven:
+                print("%s is not on 7-step-scale, for assignment %s, student %s" % (grades[i][j], i+1, studieIDS[j]))
+
+def printDescription(data):
+    assignmentAmount, studentAmount = data.shape
+    print("Number of students in file: %s" % (studentAmount-1))
+    print("Number of assignments in file: %s" % (assignmentAmount-2))
 
 def dataLoad():
     while True:
@@ -129,8 +142,9 @@ def dataLoad():
             data = pd.read_csv(filename, quotechar='"')
             break
         except FileNotFoundError:
-            print("Can't find the fucking file you moron")
+            print("File does not exist!")
             pass
+    printDescription(data)
     return data
 
 
@@ -173,7 +187,6 @@ def displayMenu(options):
 def startProgram():
     # INITIAL FILE LOAD IN:
     data = dataLoad()
-    #printDescription(data)
 
     # Define menu items
     menuItems = np.array(["Load new data", "Check for data errors",
@@ -192,7 +205,6 @@ def startProgram():
         # 2. Check for data errors
         elif choice == 2:
             checkDataErrors(data)
-            print("bla")
         # ------------------------------------------------------------------
         # 3. Generate plots
         elif choice == 3:
@@ -210,7 +222,6 @@ def startProgram():
             break
 
 if __name__ == "__main__":
-
     print("\n Greetings!")
     startProgram()
 
