@@ -1,4 +1,5 @@
 import numpy as np
+import pandas as pd
 #Program for grading students
 
 def roundGrade(grades):
@@ -17,7 +18,7 @@ def computeFinalGrades(grades):
         return np.append(grades, [])
 
     for i in range(y):
-        temp = np.asarray(roundGrade(grades[:, i]))
+        temp = grades[:, i]
         if np.amin(temp) == -3:
             gradesFinal = np.append(gradesFinal, -3)
         else :
