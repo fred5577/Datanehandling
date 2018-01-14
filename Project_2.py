@@ -23,31 +23,34 @@ def computeFinalGrades(grades):
     if x == 1:
         return np.append(grades, [])
 
+    #The loop that calculates the average for each student
     for i in range(y):
         temp = grades[:, i]
-        if np.amin(temp) == -3:
+        if roundGrade(np.array([np.amin(temp)])) == [-3]:
             gradesFinal = np.append(gradesFinal, -3)
         else:
             tempMin = np.argmin(temp)
             tempArray = np.delete(temp, tempMin)
             tempM = tempArray.mean()
             gradesFinal = np.append(gradesFinal, tempM)
-
+    #Makes sure that the grade is rounded to the nearest grade on the 7-step-scale
     return roundGrade(gradesFinal)
 
-
+#Displays the grades from the assignments and also the average for each student
 def displayData(data):
+    #The student id is removed and the names sorted alphabetically and then printed
     namesAndGrades = data.drop(['StudieID'], axis=1)
     print("\nNames and grades for the students assignments")
     namesAndGrades = namesAndGrades.sort_values(by=['Name'])
     namesAndGrades.set_index('Name', inplace=True)
     print(namesAndGrades)
-    namesAndGrades = data.drop(['StudieID'], axis=1).values
-    namesAndGrades = namesAndGrades[namesAndGrades[:, 0].sort()]
-    namesAndGrades = namesAndGrades[0]
-    temp = computeFinalGrades(np.transpose(namesAndGrades[:, 2:]))
-    out = np.vstack((namesAndGrades[:, 0], temp))
 
+    #The list is sorted alphabetically and the average is calculated with computeFinalGrades
+    namesAndGrades = data.drop(['StudieID'], axis=1).sort_values(by=['Name']).values
+    temp = computeFinalGrades(np.transpose(namesAndGrades[:, 1:]))
+
+    # The result is formatted nicely and then printed
+    out = np.vstack((namesAndGrades[:, 0], temp))
     print("\nThe finale grades for the students assignments")
     printOut = pd.DataFrame(np.transpose(out), columns=['Name', 'Finale grade'])
     printOut.set_index('Name', inplace=True)
