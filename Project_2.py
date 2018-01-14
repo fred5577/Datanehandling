@@ -182,7 +182,7 @@ def inputNumber(prompt):
             num = float(input(prompt))
             break
         except ValueError:
-            pass
+            print("Input should be a number.")
     return num
 
 
@@ -202,8 +202,7 @@ def displayMenu(options):
     # Get a valid menu choice
     choice = 0
     while not (np.any(choice == np.arange(len(options)) + 1)):
-        choice = inputNumber("Please choose a menu item: ")
-
+        choice = inputNumber("Please choose a menu item as a number between 1 and 5: ")
     return choice
 
 
@@ -242,8 +241,6 @@ def startProgram():
         elif choice == 5:
             # End
             break
-        else:
-            print("Wrong user input, please try again")
 
 
 if __name__ == "__main__":
